@@ -1,0 +1,168 @@
+ASAP2_VERSION 1 71
+/begin PROJECT Sample_Powertrain "Exported by CANssm"
+  /begin MODULE CAN "CAN signals"
+    /begin MOD_COMMON ""
+      BYTE_ORDER MSB_LAST
+    /end MOD_COMMON
+    /begin COMPU_METHOD CM_CoolantTemp "CoolantTemp" LINEAR "%7.0" "°C"
+      COEFFS_LINEAR 1 -40
+    /end COMPU_METHOD
+    /begin MEASUREMENT CoolantTemp "CoolantTemp [EngineData 0x1A0]"
+      UBYTE CM_CoolantTemp 0 0 -40 215
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      PHYS_UNIT "°C"
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_EngineState "EngineState" TAB_VERB "%.0" ""
+      COMPU_TAB_REF VT_EngineState
+    /end COMPU_METHOD
+    /begin COMPU_VTAB VT_EngineState "" TAB_VERB 4
+      0 "Off"
+      1 "Cranking"
+      2 "Running"
+      3 "Error"
+    /end COMPU_VTAB
+    /begin MEASUREMENT EngineState "EngineState [EngineData 0x1A0]"
+      UBYTE CM_EngineState 0 0 0 3
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      BIT_MASK 0x3
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_EngineRPM "EngineRPM" LINEAR "%9.2" "rpm"
+      COEFFS_LINEAR 0.25 0
+    /end COMPU_METHOD
+    /begin MEASUREMENT EngineRPM "EngineRPM [EngineData 0x1A0]"
+      UWORD CM_EngineRPM 0 0 0 16383.75
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_FIRST
+      PHYS_UNIT "rpm"
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_Throttle "Throttle" LINEAR "%7.1" "%"
+      COEFFS_LINEAR 0.1 0
+    /end COMPU_METHOD
+    /begin MEASUREMENT Throttle "Throttle [EngineData 0x1A0]"
+      UWORD CM_Throttle 0 0 0 102.3
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      BIT_MASK 0x3FF
+      PHYS_UNIT "%"
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_VehSpeed "VehSpeed" LINEAR "%7.2" "km/h"
+      COEFFS_LINEAR 0.05 0
+    /end COMPU_METHOD
+    /begin MEASUREMENT VehSpeed "VehSpeed [VehicleSpeed 0x0B4]"
+      UWORD CM_VehSpeed 0 0 0 409.55
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_FIRST
+      BIT_MASK 0x1FFF
+      PHYS_UNIT "km/h"
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_SpeedValid "SpeedValid" LINEAR "%5.0" ""
+      COEFFS_LINEAR 1 0
+    /end COMPU_METHOD
+    /begin MEASUREMENT SpeedValid "SpeedValid [VehicleSpeed 0x0B4]"
+      UBYTE CM_SpeedValid 0 0 0 1
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      BIT_MASK 0x1
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_Gear "Gear" LINEAR "%5.0" ""
+      COEFFS_LINEAR 1 -1
+    /end COMPU_METHOD
+    /begin MEASUREMENT Gear "Gear [GearInfo 0x1F0]"
+      UBYTE CM_Gear 0 0 -1 8
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      BIT_MASK 0xF
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_DoorOpen "DoorOpen" LINEAR "%6.0" ""
+      COEFFS_LINEAR 1 0
+    /end COMPU_METHOD
+    /begin MEASUREMENT DoorOpen "DoorOpen [BodyStatus 0x3C0]"
+      UBYTE CM_DoorOpen 0 0 0 15
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      BIT_MASK 0xF
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_AmbientTemp "AmbientTemp" LINEAR "%7.1" "°C"
+      COEFFS_LINEAR 0.1 0
+    /end COMPU_METHOD
+    /begin MEASUREMENT AmbientTemp "AmbientTemp [BodyStatus 0x3C0]"
+      SWORD CM_AmbientTemp 0 0 -204.8 204.7
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      BIT_MASK 0xFFF
+      PHYS_UNIT "°C"
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_PackVoltage "PackVoltage" LINEAR "%7.2" "V"
+      COEFFS_LINEAR 0.01 0
+    /end COMPU_METHOD
+    /begin MEASUREMENT PackVoltage "PackVoltage [BatteryFD 0x18FF5010]"
+      UWORD CM_PackVoltage 0 0 0 655.35
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      PHYS_UNIT "V"
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_PackCurrent "PackCurrent" LINEAR "%8.1" "A"
+      COEFFS_LINEAR 0.1 0
+    /end COMPU_METHOD
+    /begin MEASUREMENT PackCurrent "PackCurrent [BatteryFD 0x18FF5010]"
+      SWORD CM_PackCurrent 0 0 -3276.8 3276.7
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      PHYS_UNIT "A"
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_CellTempMax "CellTempMax" LINEAR "%7.0" "°C"
+      COEFFS_LINEAR 1 -40
+    /end COMPU_METHOD
+    /begin MEASUREMENT CellTempMax "CellTempMax [BatteryFD 0x18FF5010]"
+      UBYTE CM_CellTempMax 0 0 -40 215
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_LAST
+      PHYS_UNIT "°C"
+    /end MEASUREMENT
+    /begin COMPU_METHOD CM_SOC "SOC" LINEAR "%7.1" "%"
+      COEFFS_LINEAR 0.1 0
+    /end COMPU_METHOD
+    /begin MEASUREMENT SOC "SOC [BatteryFD 0x18FF5010]"
+      UWORD CM_SOC 0 0 0 102.3
+      ECU_ADDRESS 0x0
+      BYTE_ORDER MSB_FIRST
+      BIT_MASK 0x3FF
+      PHYS_UNIT "%"
+    /end MEASUREMENT
+    /begin GROUP G_EngineData "EngineData 0x1A0"
+      /begin REF_MEASUREMENT
+        CoolantTemp
+        EngineState
+        EngineRPM
+        Throttle
+      /end REF_MEASUREMENT
+    /end GROUP
+    /begin GROUP G_VehicleSpeed "VehicleSpeed 0x0B4"
+      /begin REF_MEASUREMENT
+        VehSpeed
+        SpeedValid
+      /end REF_MEASUREMENT
+    /end GROUP
+    /begin GROUP G_GearInfo "GearInfo 0x1F0"
+      /begin REF_MEASUREMENT
+        Gear
+      /end REF_MEASUREMENT
+    /end GROUP
+    /begin GROUP G_BodyStatus "BodyStatus 0x3C0"
+      /begin REF_MEASUREMENT
+        DoorOpen
+        AmbientTemp
+      /end REF_MEASUREMENT
+    /end GROUP
+    /begin GROUP G_BatteryFD "BatteryFD 0x18FF5010"
+      /begin REF_MEASUREMENT
+        PackVoltage
+        PackCurrent
+        CellTempMax
+        SOC
+      /end REF_MEASUREMENT
+    /end GROUP
+  /end MODULE
+/end PROJECT

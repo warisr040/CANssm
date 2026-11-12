@@ -1,0 +1,98 @@
+VERSION ""
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	BA_DEF_DEF_
+	SIG_VALTYPE_
+
+BS_:
+
+BU_: ECM TCU BCM ABS
+
+
+BO_ 416 EngineData: 8 ECM
+ SG_ CoolantTemp : 0|8@1+ (1,-40) [-40|215] "°C" BCM
+ SG_ EngineState : 8|2@1+ (1,0) [0|3] "" BCM,TCU
+ SG_ EngineRPM : 23|16@0+ (0.25,0) [0|16383.75] "rpm" BCM,ABS,TCU
+ SG_ Throttle : 32|10@1+ (0.1,0) [0|102.3] "%" TCU
+
+BO_ 180 VehicleSpeed: 4 ABS
+ SG_ VehSpeed : 7|13@0+ (0.05,0) [0|409.55] "km/h" BCM,ECM
+ SG_ SpeedValid : 16|1@1+ (1,0) [0|1] "" BCM
+
+BO_ 496 GearInfo: 2 TCU
+ SG_ Gear : 0|4@1+ (1,-1) [-1|8] "" ECM,BCM
+
+BO_ 960 BodyStatus: 8 BCM
+ SG_ DoorOpen : 0|4@1+ (1,0) [0|15] "" ECM
+ SG_ AmbientTemp : 8|12@1- (0.1,0) [-204.8|204.7] "°C" ECM
+
+BO_ 2566869008 BatteryFD: 24 ECM
+ SG_ PackVoltage : 0|16@1+ (0.01,0) [0|655.35] "V" BCM
+ SG_ PackCurrent : 16|16@1- (0.1,0) [-3276.8|3276.7] "A" BCM
+ SG_ CellTempMax : 32|8@1+ (1,-40) [-40|215] "°C" BCM
+ SG_ SOC : 63|10@0+ (0.1,0) [0|102.3] "%" BCM
+
+
+CM_ BU_ ECM "Engine control module";
+CM_ BU_ TCU "Transmission control unit";
+CM_ BU_ BCM "Body control module (our node)";
+CM_ BU_ ABS "Brake controller";
+CM_ BO_ 416 "Engine speed and temperatures";
+CM_ BO_ 2566869008 "CAN FD 20-byte battery frame";
+BA_DEF_  "BusType" STRING ;
+BA_DEF_  "Baudrate" INT 1000 1000000;
+BA_DEF_  "BaudrateCANFD" INT 1000 16000000;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 65535;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","Event","CyclicIfActive","NoMsgSendType","IfActive","CyclicAndEvent";
+BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","StandardCAN_FD","ExtendedCAN_FD";
+BA_DEF_ BO_  "CANFD_BRS" ENUM  "0","1";
+BA_DEF_ SG_  "GenSigStartValue" FLOAT -1e100 1e100;
+BA_DEF_ BU_  "NodePosition_m" FLOAT 0 100000;
+BA_DEF_DEF_  "BusType" "CAN";
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_  "VFrameFormat" "StandardCAN";
+BA_DEF_DEF_  "CANFD_BRS" "1";
+BA_DEF_DEF_  "GenSigStartValue" 0;
+BA_DEF_DEF_  "NodePosition_m" 0;
+BA_ "BusType" "CAN FD";
+BA_ "Baudrate" 500000;
+BA_ "BaudrateCANFD" 2000000;
+BA_ "NodePosition_m" BU_ ECM 0;
+BA_ "NodePosition_m" BU_ TCU 8;
+BA_ "NodePosition_m" BU_ BCM 18;
+BA_ "NodePosition_m" BU_ ABS 30;
+BA_ "GenMsgCycleTime" BO_ 416 10;
+BA_ "GenMsgSendType" BO_ 416 0;
+BA_ "VFrameFormat" BO_ 416 0;
+BA_ "GenSigStartValue" SG_ 416 CoolantTemp 130;
+BA_ "GenSigStartValue" SG_ 416 EngineState 2;
+BA_ "GenSigStartValue" SG_ 416 EngineRPM 12000;
+BA_ "GenSigStartValue" SG_ 416 Throttle 235;
+BA_ "GenMsgCycleTime" BO_ 180 20;
+BA_ "GenMsgSendType" BO_ 180 0;
+BA_ "VFrameFormat" BO_ 180 0;
+BA_ "GenSigStartValue" SG_ 180 VehSpeed 1200;
+BA_ "GenSigStartValue" SG_ 180 SpeedValid 1;
+BA_ "GenMsgCycleTime" BO_ 496 50;
+BA_ "GenMsgSendType" BO_ 496 0;
+BA_ "VFrameFormat" BO_ 496 0;
+BA_ "GenSigStartValue" SG_ 496 Gear 4;
+BA_ "GenMsgCycleTime" BO_ 960 100;
+BA_ "GenMsgSendType" BO_ 960 0;
+BA_ "VFrameFormat" BO_ 960 0;
+BA_ "GenSigStartValue" SG_ 960 AmbientTemp 315;
+BA_ "GenMsgCycleTime" BO_ 2566869008 100;
+BA_ "GenMsgSendType" BO_ 2566869008 0;
+BA_ "VFrameFormat" BO_ 2566869008 15;
+BA_ "CANFD_BRS" BO_ 2566869008 1;
+BA_ "GenSigStartValue" SG_ 2566869008 PackVoltage 39840;
+BA_ "GenSigStartValue" SG_ 2566869008 PackCurrent -125;
+BA_ "GenSigStartValue" SG_ 2566869008 CellTempMax 75;
+BA_ "GenSigStartValue" SG_ 2566869008 SOC 764;
+VAL_ 416 EngineState 0 "Off" 1 "Cranking" 2 "Running" 3 "Error" ;

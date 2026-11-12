@@ -1,0 +1,49 @@
+{
+  "name": "canssm",
+  "productName": "CANssm",
+  "version": "1.0.0",
+  "description": "CAN Signal Specification Modifier",
+  "author": "Pack",
+  "main": "main.js",
+  "build": {
+    "appId": "com.pack.canssm",
+    "productName": "CANssm",
+    "files": [
+      "main.js",
+      "preload.js",
+      "icon.png",
+      "app/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "icon.ico",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "CANssm-${version}-portable.exe"
+    },
+    "afterPack": "./afterPack.js",
+    "directories": {
+      "output": "release"
+    },
+    "compression": "normal"
+  },
+  "devDependencies": {
+    "electron": "^37.10.3",
+    "electron-builder": "^26.18.0",
+    "resedit": "^2.0.3"
+  }
+}
